@@ -2,6 +2,7 @@ package com.example.mailapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val loadButton = findViewById<Button>(R.id.btn_loadMore)
         val emailRV = findViewById<RecyclerView>(R.id.rv_email)
         // Fetch the list of emails
         emails = EmailFetcher.getEmails()
@@ -22,5 +24,11 @@ class MainActivity : AppCompatActivity() {
         emailRV.adapter = adapter
         // Set layout manager to position the items
         emailRV.layoutManager = LinearLayoutManager(this)
+
+        loadButton.setOnClickListener(){
+            //Fetch next emails
+            emails += EmailFetcher.getNext5Emails();
+            adapter.notifyDataSetChanged()
+        }
     }
 }
